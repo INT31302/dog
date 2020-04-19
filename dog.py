@@ -1,7 +1,6 @@
 import discord
-import datetime
+import os
 client = discord.Client()
-TOKEN = "NzAxNDYyODg4NTg1NDk0NTc5.Xpx9Nw.UppwtjYFauget256wM1IcDP28e8"
 
 
 @client.event
@@ -29,4 +28,5 @@ async def on_member_join(member):
     role = discord.utils.get(member.guild.roles, name="🔰길드원")
     await member.add_roles(role)
 
-client.run(TOKEN)
+access_token = os.environ["BOT_TOKEN"]
+client.run(access_token)

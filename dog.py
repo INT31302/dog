@@ -31,7 +31,7 @@ async def on_member_join(member):
     await member.add_roles(role)
     await member.edit(nick="🔰닉네임/직업")
 
-    def snowman():
+def snowman():
     string = ".\n"
     string += "\t\t\t\t ┌─┐\n"
     string += "\t\t\t\t │─ |\n"
@@ -50,5 +50,6 @@ async def on_member_join(member):
     string += "\t\t  |\t0 \t\t\t\t   | \n"
     string += "\t\t  \\ \_\_\_\_\_\_\_\_\_\_\_/ \n"
     return string
+
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)

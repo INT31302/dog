@@ -16,6 +16,8 @@ async def on_message(message):
         await message.channel.send("할말")
     if message.content.startswith("/테스트"):
         await message.channel.send("메롱")
+    if message.content.startswith("/눈사람"):
+        await message.channel.send(snowman())
 
 
 @client.event
@@ -27,6 +29,26 @@ async def on_member_join(member):
         print("error")
     role = discord.utils.get(member.guild.roles, name="🔰길드원")
     await member.add_roles(role)
+    await member.edit(nick="🔰닉네임/직업")
 
+    def snowman():
+    string = ".\n"
+    string += "\t\t\t\t ┌─┐\n"
+    string += "\t\t\t\t │─ |\n"
+    string += "\t\t\t┌└─┘┐\n"
+    string += "\t\t\t│───│\n"
+    string += "\t\t\t└───┘\n"
+    string += "\t\t\t/ \t\t\t\t \ \n"
+    string += "\t\t\t() ^ \t\t ^  () \n"
+    string += "\t\t\t\ \t.  ──. / \n"
+    string += "\t\_\ /  \ \t . . . .  /   \ /\_\n"
+    string += "\t\t \     {'──'}     /\n"
+    string += "\t\t  \  /'──/','\\\\/\n"
+    string += "\t\t   /' 0 \t|\t| \ \'\\\n"
+    string += "\t\t  |'\t\t   |\t|  \/    | \n"
+    string += "\t\t  |'\t0\t \\ │\t  | \n"
+    string += "\t\t  |\t0 \t\t\t\t   | \n"
+    string += "\t\t  \\ \_\_\_\_\_\_\_\_\_\_\_/ \n"
+    return string
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)

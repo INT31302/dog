@@ -21,7 +21,7 @@ async def on_message(message):
         await message.channel.send("메롱")
     if message.content.startswith("/눈사람"):
         await message.channel.send(snowman())
-   if message.content.startswith("/모험섬"):
+    if message.content.startswith("/모험섬"):
         await message.channel.send("잠시만 기다려주세요!")
         await message.channel.send(find_islands())
 

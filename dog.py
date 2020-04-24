@@ -1,5 +1,8 @@
 import discord
 import os
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import re
 client = discord.Client()
 
 
@@ -18,6 +21,20 @@ async def on_message(message):
         await message.channel.send("메롱")
     if message.content.startswith("/눈사람"):
         await message.channel.send(snowman())
+    if message.content.startswith("/모험섬"):
+        await message.channel.send("잠시만 기다려주세요!")
+        webpage = urlopen("http://loawa.com")
+        soup = BeautifulSoup(webpage, "html.parser")
+        islands = "```diff\n오늘 모험의 섬은 아래와 같습니다.\n"
+        for content in soup.find_all(attrs={'class': 'text-wblack tfs12'}):
+            temp1 = "+ "+content.get_text()
+            temp2 = content.find(
+                attrs={'class': re.compile("text-.*?")}).get_text()
+            index = temp1.find(temp2)
+            islands += temp1[:index-2] + '\n- ' + temp2+"\n"
+
+        islands += "```"
+        await message.channel.send(islands)
 
 
 @client.event

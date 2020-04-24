@@ -21,20 +21,9 @@ async def on_message(message):
         await message.channel.send("메롱")
     if message.content.startswith("/눈사람"):
         await message.channel.send(snowman())
-    if message.content.startswith("/모험섬"):
+   if message.content.startswith("/모험섬"):
         await message.channel.send("잠시만 기다려주세요!")
-        webpage = urlopen("http://loawa.com")
-        soup = BeautifulSoup(webpage, "html.parser")
-        islands = "```diff\n오늘 모험의 섬은 아래와 같습니다.\n"
-        for content in soup.find_all(attrs={'class': 'text-wblack tfs12'}):
-            temp1 = "+ "+content.get_text()
-            temp2 = content.find(
-                attrs={'class': re.compile("text-.*?")}).get_text()
-            index = temp1.find(temp2)
-            islands += temp1[:index-2] + '\n- ' + temp2+"\n"
-
-        islands += "```"
-        await message.channel.send(islands)
+        await message.channel.send(find_islands())
 
 
 @client.event
@@ -67,6 +56,22 @@ def snowman():
     string += "\t\t  |\t0 \t\t\t\t   | \n"
     string += "\t\t  \\ \_\_\_\_\_\_\_\_\_\_\_/ \n"
     return string
+
+def find_islands():
+    webpage = urlopen("http://loawa.com")
+    soup = BeautifulSoup(webpage, "html.parser")
+    islands = "```diff\n오늘 모험의 섬은 아래와 같습니다.\n"
+    islands += "" + soup.find(attrs={'class': 'text-lightcyan tfs12'}
+                              ).get_text()+"\n"
+    for content in soup.find_all(attrs={'class': 'text-wblack tfs12 p-0 m-0'}):
+        temp2 = ""
+        temp1 = "+ "+content.get_text()
+        for in_content in content.find_all(attrs={'class': re.compile("text-.*?")}):
+            temp2 += in_content.get_text()+" "
+        index = temp1.find(temp2.strip())
+        islands += temp1[:index] + '\n- ' + temp2+"\n"
+    islands += "```"
+    return islands
 
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)

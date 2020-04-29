@@ -61,17 +61,21 @@ def find_islands():
     webpage = urlopen("http://loawa.com")
     soup = BeautifulSoup(webpage, "html.parser")
     islands = "```diff\n오늘 모험의 섬은 아래와 같습니다.\n"
-    islands += "" + soup.find(attrs={'class': 'text-lightcyan tfs12'}
-                              ).get_text()+"\n"
-    for content in soup.find_all(attrs={'class': 'text-wblack tfs12 p-0 m-0'}):
-        temp2 = ""
-        temp1 = "+ "+content.get_text()
-        for in_content in content.find_all(attrs={'class': re.compile("text-.*?")}):
-            temp2 += in_content.get_text()+" "
-        index = temp1.find(temp2.strip())
-        islands += temp1[:index] + '\n- ' + temp2+"\n"
-    islands += "```"
-    return islands
+    try:
+        islands += "" + soup.find(attrs={'class': re.compile('text-lightcyan.*?')}
+                                  ).get_text()+"\n"
+        for content in soup.find_all(attrs={'class': re.compile('text-wblack tfs.*?')}):
+            temp2 = ""
+            temp1 = "+ "+content.get_text()
+            if(temp1.find("골드") != -1 or temp1.find("실링") != -1 or temp1.find("제련 재료") != -1):
+                for in_content in content.find_all(attrs={'class': re.compile("text-.*?")}):
+                    temp2 += in_content.get_text()+" "
+                index = temp1.find(temp2.strip())
+                islands += temp1[:index] + '\n- ' + temp2+"\n"
+        islands += "```"
+        return islands
+    except:
+        return "오류 발생"
 
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)

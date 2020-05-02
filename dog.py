@@ -67,7 +67,7 @@ def find_islands():
         for content in soup.find_all(attrs={'class': re.compile('text-wblack tfs.*?')}):
             temp2 = ""
             temp1 = "+ "+content.get_text()
-            if(temp1.find("골드") != -1 or temp1.find("실링") != -1 or temp1.find("제련 재료") != -1 or temp1.find("해적 주화")):
+            if(temp1.find("골드") != -1 or temp1.find("실링") != -1 or temp1.find("제련 재료") != -1 or temp1.find("해적 주화") != -1):
                 for in_content in content.find_all(attrs={'class': re.compile("text-.*?")}):
                     temp2 += in_content.get_text()+" "
                 index = temp1.find(temp2.strip())

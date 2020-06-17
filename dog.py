@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import re
 client = discord.Client()
 
+lst = dict()
 
 @client.event
 async def on_ready():
@@ -15,15 +16,19 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith("/안녕"):
-        await message.channel.send("할말")
-    if message.content.startswith("/테스트"):
-        await message.channel.send("메롱")
     if message.content.startswith("/눈사람"):
         await message.channel.send(snowman())
     if message.content.startswith("/모험섬"):
         await message.channel.send("잠시만 기다려주세요!")
         await message.channel.send(find_islands())
+    if message.content.startswith("/투표"):
+        await message.channel.send(vote(message.content))
+    if message.content.startswith("/초기화"):
+        lst.clear()
+        await message.channel.send("초기화 되었습니다.")
+    if message.content.startswith("/결과"):
+        if(message.author.name == "INT⎝⎛•‿•⎞⎠" and message.author.discriminator == '8757'):
+            await message.channel.send(printResult())
 
 
 @client.event
@@ -76,6 +81,24 @@ def find_islands():
         return islands
     except:
         return "오류 발생"
+
+def vote(message=""):
+    print(message)
+    name = message.split()
+    global lst
+    if name[1] in lst:
+        lst[name[1]] += 1
+    else:
+        lst[name[1]] = 1
+    return "'"+name[1]+"'님을 투표하였습니다."
+
+
+def printResult():
+    global lst
+    result = "득표 수\n"
+    for k, v in lst.items():
+        result += k + '님 ' + str(v) + "표\n"
+    return result
 
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)

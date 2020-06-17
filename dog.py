@@ -6,6 +6,7 @@ import re
 client = discord.Client()
 
 lst = dict()
+attend_list = dict()
 
 @client.event
 async def on_ready():
@@ -23,12 +24,14 @@ async def on_message(message):
         await message.channel.send(find_islands())
     if message.content.startswith("/투표"):
         await message.channel.send(vote(message.content))
-    if message.content.startswith("/초기화"):
-        lst.clear()
-        await message.channel.send("초기화 되었습니다.")
-    if message.content.startswith("/결과"):
-        if(message.author.name == "INT⎝⎛•‿•⎞⎠" and message.author.discriminator == '8757'):
+    if(message.author.discriminator == '8757'):
+        if message.content.startswith("/초기화"):
+            lst.clear()
+            attend_list.clear()
+            await message.channel.send("초기화 되었습니다.")
+        if message.content.startswith("/결과"):
             await message.channel.send(printResult())
+
 
 
 @client.event
@@ -83,14 +86,19 @@ def find_islands():
         return "오류 발생"
 
 def vote(message=""):
-    print(message)
-    name = message.split()
+    name = message.content.split()
+    tag = message.author.discriminator
     global lst
-    if name[1] in lst:
-        lst[name[1]] += 1
+    global attend_list
+    if tag in attend_list:
+        return '이미 ' + str(attend_list[tag])+'님을 투표하셨습니다.'
     else:
-        lst[name[1]] = 1
-    return "'"+name[1]+"'님을 투표하였습니다."
+        attend_list[tag] = name[1]
+        if name[1] in lst:
+            lst[name[1]] += 1
+        else:
+            lst[name[1]] = 1
+        return "'"+name[1]+"'님을 투표하였습니다."
 
 
 def printResult():

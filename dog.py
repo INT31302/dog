@@ -10,7 +10,7 @@ lst = dict()
 @client.event
 async def on_ready():
     print(str(client.user.id)+" is ready")
-    game = discord.Game("테스트")
+    game = discord.Game("인사왕 이벤트")
     await client.change_presence(status=discord.Status.online, activity=game)
 
 

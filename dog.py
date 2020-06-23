@@ -121,7 +121,7 @@ def drawLots():
     cnt = 0
     result = '추첨결과\n'
     for k in attend_list.keys():
-        if(random == r):
+        if(cnt == r):
             result += '당첨자는 ' + k+"입니다!"
         cnt += 1
     return result

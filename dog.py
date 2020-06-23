@@ -23,7 +23,7 @@ async def on_message(message):
         await message.channel.send("잠시만 기다려주세요!")
         await message.channel.send(find_islands())
     if message.content.startswith("/투표"):
-        await message.channel.send(vote(message.content))
+        await message.channel.send(vote(message))
     if(message.author.discriminator == '8757'):
         if message.content.startswith("/초기화"):
             lst.clear()

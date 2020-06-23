@@ -31,7 +31,8 @@ async def on_message(message):
             await message.channel.send("초기화 되었습니다.")
         if message.content.startswith("/결과"):
             await message.channel.send(printResult())
-
+        if message.content.startswith("/추첨"):
+            await message.channel.send(drawLots())
 
 
 @client.event
@@ -106,6 +107,17 @@ def printResult():
     result = "득표 수\n"
     for k, v in lst.items():
         result += k + '님 ' + str(v) + "표\n"
+    return result
+
+def drawLots():
+    global attend_list
+    r = random.randrange(0, len(attend_list))
+    cnt = 0
+    result = '추첨결과\n'
+    for k in attend_list.keys():
+        if(random == r):
+            result += '당첨자는 ' + k+"입니다!"
+        cnt += 1
     return result
 
 access_token = os.environ["BOT_TOKEN"]

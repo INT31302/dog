@@ -3,10 +3,16 @@ import os
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
+import random
 client = discord.Client()
 
 lst = dict()
 attend_list = dict()
+
+lst['루스덮밥'] = lst['꿀다람'] = lst['매니저들'] = 1
+attend_list['면코튼'] = '루스덮밥'
+attend_list['욤욤'] = '꿀다람'
+attend_list['오드스(블레이드)'] = '매니저들'
 
 @client.event
 async def on_ready():

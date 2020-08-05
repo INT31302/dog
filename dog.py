@@ -9,15 +9,10 @@ client = discord.Client()
 lst = dict()
 attend_list = dict()
 
-lst['루스덮밥'] = lst['꿀다람'] = lst['매니저들'] = 1
-attend_list['면코튼'] = '루스덮밥'
-attend_list['욤욤'] = '꿀다람'
-attend_list['오드스(블레이드)'] = '매니저들'
-
 @client.event
 async def on_ready():
     print(str(client.user.id)+" is ready")
-    game = discord.Game("인사왕 이벤트")
+    game = discord.Game("")
     await client.change_presence(status=discord.Status.online, activity=game)
 
 

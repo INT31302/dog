@@ -2,6 +2,7 @@ import discord
 import os
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+import time
 import re
 import random
 client = discord.Client()
@@ -21,18 +22,19 @@ async def on_message(message):
     global lst
     if message.content.startswith("*모험섬"):
         msg = await message.channel.send("잠시만 기다려주세요!")
+        time.sleep(2)
         await msg.delete()
         await message.channel.send(find_islands())
     if message.content.startswith("*투표"):
         await vote(message)
     if message.content.startswith("*몰아주기"):
         msg = await message.channel.send("몰아주기 결과는?!")
-        # time.sleep(2)
+        time.sleep(2)
         await msg.delete()
         await message.channel.send("축하드립니다!```"+roulette(message)+"번 공대원님!```")
     if message.content.startswith("*사다리타기"):
         msg = await message.channel.send("사다리타기 결과는?!")
-        # time.sleep(2)
+        time.sleep(2)
         await msg.delete()
         await message.channel.send(ladder(message))
     # if message.content.startswith("/이벤트"):

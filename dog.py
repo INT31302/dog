@@ -29,7 +29,7 @@ async def on_message(message):
         msg = await message.channel.send("몰아주기 결과는?!")
         # time.sleep(2)
         await msg.delete()
-        await message.channel.send("축하드립니다!\n "+roulette(message)+"번 공대원님!")
+        await message.channel.send("축하드립니다!\n ```"+roulette(message)+"번 공대원님!```")
     if message.content.startswith("*사다리타기"):
         msg = await message.channel.send("사다리타기 결과는?!")
         # time.sleep(2)
@@ -67,7 +67,7 @@ def find_islands():
         soup.select_one("span.text-theme-0.tfs14").text+"\n```"
     try:
         contents = soup.select(
-            'div.row.pl-1.pr-1.pt-0.pb-0.m-0.justify-content-md-center > div.col-6 col-sm-6 col-md-6 col-lg-6 col-xl-4 pl-1 pr-1')
+            'div.row.pl-1.pr-1.pt-0.pb-0.m-0.justify-content-md-center > div.col-6.col-sm-6.col-md-6.col-lg-6.col-xl-4.pl-1.pr-1')
         for content in contents:
             islands += "{:^15}".format(content.select_one('p > strong').text)
         islands += "\n"

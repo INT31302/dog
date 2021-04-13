@@ -23,10 +23,20 @@ async def on_message(message):
         msg = await message.channel.send("잠시만 기다려주세요!")
         await msg.delete()
         await message.channel.send(find_islands())
+    if message.content.startswith("*투표"):
+        await vote(message)
+    if message.content.startswith("*몰아주기"):
+        msg = await message.channel.send("몰아주기 결과는?!")
+        # time.sleep(2)
+        await msg.delete()
+        await message.channel.send("축하드립니다!\n "+roulette(message)+"번 공대원님!")
+    if message.content.startswith("*사다리 타기"):
+        msg = await message.channel.send("사다리타기 결과는?!")
+        # time.sleep(2)
+        await msg.delete()
+        await message.channel.send(ladder(message))
     # if message.content.startswith("/이벤트"):
     #     await message.channel.send(voteEvent(message))
-    if message.content.startswith("/투표"):
-        await vote(message)
     # if(message.author.discriminator == '8757'):
     #     if message.content.startswith("/초기화"):
     #         lst.clear()
@@ -80,6 +90,34 @@ async def vote(message=""):
     msg = await message.channel.send(result)
     for i in range(0, msg_len):
         await msg.add_reaction(emoji_number[i])
+        
+def roulette(message=""):
+    msg = message.content.split()  # 공대원 수
+    cnt = int(msg[1])
+    return random.randrange(1, cnt+1)
+
+def ladder(message=""):
+    msg = message.content.split()  # 공대원 수 #항목 수
+    people_cnt = int(msg[1])
+    item_cnt = int(msg[2])
+    people_lst = dict()
+    item_list = []
+    for i in range(1, item_cnt+1):
+        item_list.append(i)
+    for i in range(0, people_cnt):
+        people_lst[i] = 0
+    while(len(item_list) != 0):
+        ran = random.randrange(0, people_lst)
+        if(people_lst[ran] != 0):
+            continue
+        people_lst[ran] = item_list.pop()
+
+    result = "추첨 결과 ```"
+    for i in range(0, people_cnt):
+        if(people_lst[i] != 0):
+            result += (i+1)+"번째 공대원님 : "+people_lst[i]+"번 아이템\n"
+    result += '```'
+    return result
 
 # def printResult():
 #     global lst

@@ -107,7 +107,7 @@ def ladder(message=""):
     for i in range(0, people_cnt):
         people_lst[i] = 0
     while(len(item_list) != 0):
-        ran = random.randrange(0, people_lst)
+        ran = random.randrange(0, people_cnt)
         if(people_lst[ran] != 0):
             continue
         people_lst[ran] = item_list.pop()

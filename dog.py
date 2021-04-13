@@ -80,7 +80,7 @@ def find_islands():
         return "오류 발생"
 
 async def vote(message=""):
-    global emoji_number
+    emoji_number = ['1️⃣', '2️⃣', '3️⃣']
     p = re.compile('"(.*?)"')
     msg = p.findall(message.content)
     msg_len = len(msg)-1

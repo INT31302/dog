@@ -29,7 +29,7 @@ async def on_message(message):
         msg = await message.channel.send("몰아주기 결과는?!")
         # time.sleep(2)
         await msg.delete()
-        await message.channel.send("축하드립니다!\n ```"+roulette(message)+"번 공대원님!```")
+        await message.channel.send("축하드립니다!```"+roulette(message)+"번 공대원님!```")
     if message.content.startswith("*사다리타기"):
         msg = await message.channel.send("사다리타기 결과는?!")
         # time.sleep(2)

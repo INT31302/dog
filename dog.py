@@ -19,7 +19,7 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global lst
-    if message.content.startswith("/모험섬"):
+    if message.content.startswith("*모험섬"):
         msg = await message.channel.send("잠시만 기다려주세요!")
         await msg.delete()
         await message.channel.send(find_islands())

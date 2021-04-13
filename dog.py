@@ -94,7 +94,7 @@ async def vote(message=""):
 def roulette(message=""):
     msg = message.content.split()  # 공대원 수
     cnt = int(msg[1])
-    return random.randrange(1, cnt+1)
+    return str(random.randrange(1, cnt+1))
 
 def ladder(message=""):
     msg = message.content.split()  # 공대원 수 #항목 수
@@ -115,7 +115,7 @@ def ladder(message=""):
     result = "추첨 결과 ```"
     for i in range(0, people_cnt):
         if(people_lst[i] != 0):
-            result += (i+1)+"번째 공대원님 : "+people_lst[i]+"번 아이템\n"
+            result += str(i+1)+"번째 공대원님 : "+str(people_lst[i])+"번 아이템\n"
     result += '```'
     return result
 

@@ -67,7 +67,7 @@ def find_islands():
         soup.select_one("span.text-theme-0.tfs14").text+"\n```"
     try:
         contents = soup.select(
-            '.row.pl-1.pr-1.pt-0.pb-0.m-0.justify-content-md-center > div')
+            'div.row.pl-1.pr-1.pt-0.pb-0.m-0.justify-content-md-center > div.col-6 col-sm-6 col-md-6 col-lg-6 col-xl-4 pl-1 pr-1')
         for content in contents:
             islands += "{:^15}".format(content.select_one('p > strong').text)
         islands += "\n"

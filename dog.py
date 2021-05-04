@@ -107,20 +107,35 @@ def ladder(message=""):
     for i in range(1, item_cnt+1):
         item_list.append(i)
     for i in range(0, people_cnt):
-        people_lst[i] = 0
+        people_lst[i] = []
     while(len(item_list) != 0):
         ran = random.randrange(0, people_cnt)
-        if(people_lst[ran] != 0):
-            continue
-        people_lst[ran] = item_list.pop()
-
+        if(check(people_lst)):
+            people_lst[ran].push(item_list.pop())
+        else:
+            if(people_lst[ran] != 0):
+                continue
+            people_lst[ran].push item_list.pop()
+    
     result = "축하드립니다!```"
     for i in range(0, people_cnt):
-        if(people_lst[i] != 0):
-            result += str(i+1)+"번째 공대원님 : "+str(people_lst[i])+"번 아이템\n"
+        result += str(i+1)+"번째 공대원님 : "
+        for j in range(0, people_lst[i]):
+            if(len(people_lst[i])):
+                result += str(people_lst[i])+"번 아이템, "
+        result.rstrip(", ")
+        result+="\n"
     result += '```'
     return result
 
+def check(people_lst=dict()):
+    isFull = true
+    for i in range(0, len(people_lst):
+        if(people_lst[i] != 0):
+           isFull = false;
+           break
+    return isFull
+    
 # def printResult():
 #     global lst
 #     result = "득표 수\n"

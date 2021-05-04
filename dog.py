@@ -122,7 +122,7 @@ def ladder(message=""):
         result += str(i+1)+"번째 공대원님 : "
         while(len(people_lst[i]) != 0):
             result += str(people_lst[i].pop())+"번 아이템, "
-        result.rstrip(", ")
+        result.rstrip(",")
         result+="\n"
     result += '```'
     return result

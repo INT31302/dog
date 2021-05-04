@@ -128,10 +128,10 @@ def ladder(message=""):
     return result
 
 def check(people_lst=dict()):
-    isFull = true
+    isFull = True
     for i in range(0, len(people_lst)):
         if(people_lst[i] != 0):
-           isFull = false;
+           isFull = False;
            break
     return isFull
     

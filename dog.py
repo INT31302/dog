@@ -119,8 +119,9 @@ def ladder(message=""):
     
     result = "축하드립니다!```"
     for i in range(0, people_cnt):
-        if(len(people_lst[i]) != 0):
-            result += str(i+1)+"번째 공대원님 : "
+        if(len(people_lst[i]) == 0):
+            continue
+        result += str(i+1)+"번째 공대원님 : "
         while(len(people_lst[i]) != 0):
             result += str(people_lst[i].pop())+"번 아이템, "
         result = result.rstrip(", ")

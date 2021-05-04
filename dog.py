@@ -115,7 +115,7 @@ def ladder(message=""):
         else:
             if(people_lst[ran] != 0):
                 continue
-            people_lst[ran].push item_list.pop()
+            people_lst[ran].push(item_list.pop())
     
     result = "축하드립니다!```"
     for i in range(0, people_cnt):

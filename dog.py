@@ -130,7 +130,7 @@ def ladder(message=""):
 def check(people_lst=dict()):
     isFull = True
     for i in range(0, len(people_lst)):
-        if(people_lst[i] != 0):
+        if(len(people_lst[i]) == 0):
            isFull = False;
            break
     return isFull

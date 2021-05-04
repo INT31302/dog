@@ -111,17 +111,17 @@ def ladder(message=""):
     while(len(item_list) != 0):
         ran = random.randrange(0, people_cnt)
         if(check(people_lst)):
-            people_lst[ran].push(item_list.pop())
+            people_lst[ran].append(item_list.pop())
         else:
             if(len(people_lst[ran]) != 0):
                 continue
-            people_lst[ran].push(item_list.pop())
+            people_lst[ran].append(item_list.pop())
     
     result = "축하드립니다!```"
     for i in range(0, people_cnt):
         result += str(i+1)+"번째 공대원님 : "
-        for j in range(0, len(people_lst[i])):
-            result += str(people_lst[i][j])+"번 아이템, "
+        while(len(people_lst[i] != 0):
+            result += str(people_lst[i].pop())+"번 아이템, "
         result.rstrip(", ")
         result+="\n"
     result += '```'

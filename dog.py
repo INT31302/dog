@@ -113,7 +113,7 @@ def ladder(message=""):
         if(check(people_lst)):
             people_lst[ran].push(item_list.pop())
         else:
-            if(people_lst[ran] != 0):
+            if(len(people_lst[ran]) != 0):
                 continue
             people_lst[ran].push(item_list.pop())
     
@@ -121,7 +121,7 @@ def ladder(message=""):
     for i in range(0, people_cnt):
         result += str(i+1)+"번째 공대원님 : "
         for j in range(0, len(people_lst[i])):
-            result += str(people_lst[i])+"번 아이템, "
+            result += str(people_lst[i][j])+"번 아이템, "
         result.rstrip(", ")
         result+="\n"
     result += '```'

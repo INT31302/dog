@@ -120,9 +120,8 @@ def ladder(message=""):
     result = "축하드립니다!```"
     for i in range(0, people_cnt):
         result += str(i+1)+"번째 공대원님 : "
-        for j in range(0, people_lst[i]):
-            if(len(people_lst[i])):
-                result += str(people_lst[i])+"번 아이템, "
+        for j in range(0, len(people_lst[i])):
+            result += str(people_lst[i])+"번 아이템, "
         result.rstrip(", ")
         result+="\n"
     result += '```'
@@ -130,7 +129,7 @@ def ladder(message=""):
 
 def check(people_lst=dict()):
     isFull = true
-    for i in range(0, len(people_lst):
+    for i in range(0, len(people_lst)):
         if(people_lst[i] != 0):
            isFull = false;
            break

@@ -111,7 +111,7 @@ def ladder(message=""):
         check[i] = false;
     while(cnt != item_cnt):
         ran = random.randrange(0, people_cnt)
-        if(!check[i]):
+        if(check[i] != false):
             item_list[i].append(ran);
             cnt+=1;
             check[i] = true;=

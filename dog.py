@@ -114,7 +114,7 @@ def ladder(message=""):
         if(check[i] != false):
             item_list[i].append(ran);
             cnt+=1;
-            check[i] = true;=
+            check[i] = true;
     
     result = "축하드립니다!```"
     for i in range(0, item_list):

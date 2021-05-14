@@ -111,7 +111,7 @@ def ladder(message=""):
         check.append(False);
     while(cnt != item_cnt):
         ran = random.randrange(0, people_cnt)
-        if(check_arr(item_list) == True):
+        if(check_arr(check) == True):
             item_list[cnt].append(ran);
             cnt+=1;
         else:
@@ -131,10 +131,10 @@ def ladder(message=""):
     result += '```'
     return result
 
-def check_arr(item_lst=dict()):
+def check_arr(check_lst=[]):
     isFull = True
-    for i in range(0, len(item_lst)):
-        if(len(item_lst[i]) == 0):
+    for i in range(0, len(check_lst)):
+        if(check_lst[i] == False):
            isFull = False;
            break
     return isFull

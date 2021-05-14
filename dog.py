@@ -104,12 +104,13 @@ def ladder(message=""):
     item_cnt = int(msg[2])
     check = [];
     cnt = 0;
+    min_val = min(item_cnt, people_cnt)
     item_list = dict()
     for i in range(0, item_cnt):
         item_list[i] = []
     for i in range(0, people_cnt):
         check.append(False);
-    while(cnt != item_cnt):
+    while(cnt != min):
         ran = random.randrange(0, people_cnt)
         if(check[ran] == False):
             item_list[cnt].append(ran);

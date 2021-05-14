@@ -108,7 +108,7 @@ def ladder(message=""):
     for i in range(0, item_cnt):
         item_list[i] = []
     for i in range(0, people_cnt):
-        check[i] = False;
+        check.append(False);
     while(cnt != item_cnt):
         ran = random.randrange(0, people_cnt)
         if(check[ran] != False):

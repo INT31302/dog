@@ -104,18 +104,21 @@ def ladder(message=""):
     item_cnt = int(msg[2])
     check = [];
     cnt = 0;
-    min_val = min(item_cnt, people_cnt)
     item_list = dict()
     for i in range(0, item_cnt):
         item_list[i] = []
     for i in range(0, people_cnt):
         check.append(False);
-    while(cnt != min_val):
+    while(cnt != item_cnt):
         ran = random.randrange(0, people_cnt)
-        if(check[ran] == False):
+        if(check_arr(item_list) == True):
             item_list[cnt].append(ran);
             cnt+=1;
-            check[ran] = True;
+        else:
+            if(check[ran] == False):
+                item_list[cnt].append(ran);
+                cnt+=1;
+                check[ran] = True;
     
     result = "축하드립니다!```"
     for i in range(0, item_cnt):
@@ -128,6 +131,13 @@ def ladder(message=""):
     result += '```'
     return result
 
+def check_arr(item_lst=dict()):
+    isFull = True
+    for i in range(0, len(item_lst)):
+        if(len(item_lst[i]) == 0):
+           isFull = False;
+           break
+    return isFull
     
 # def printResult():
 #     global lst

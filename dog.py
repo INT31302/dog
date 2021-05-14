@@ -108,13 +108,13 @@ def ladder(message=""):
     for i in range(0, item_cnt):
         item_list[i] = []
     for i in range(0, people_cnt):
-        check[i] = false;
+        check[i] = False;
     while(cnt != item_cnt):
         ran = random.randrange(0, people_cnt)
-        if(check[i] != false):
+        if(check[i] != False):
             item_list[i].append(ran);
             cnt+=1;
-            check[i] = true;
+            check[i] = True;
     
     result = "축하드립니다!```"
     for i in range(0, item_list):

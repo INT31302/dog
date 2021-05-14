@@ -110,7 +110,7 @@ def ladder(message=""):
         item_list[i] = []
     for i in range(0, people_cnt):
         check.append(False);
-    while(cnt != min):
+    while(cnt != min_val):
         ran = random.randrange(0, people_cnt)
         if(check[ran] == False):
             item_list[cnt].append(ran);

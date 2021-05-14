@@ -102,40 +102,30 @@ def ladder(message=""):
     msg = message.content.split()  # 공대원 수 #항목 수
     people_cnt = int(msg[1])
     item_cnt = int(msg[2])
-    people_lst = dict()
-    item_list = []
-    for i in range(1, item_cnt+1):
-        item_list.append(i)
+    check = [];
+    cnt = 0;
+    item_list = dict()
+    for i in range(0, item_cnt):
+        item_list[i] = []
     for i in range(0, people_cnt):
-        people_lst[i] = []
-    while(len(item_list) != 0):
+        check[i] = false;
+    while(cnt != item_cnt):
         ran = random.randrange(0, people_cnt)
-        if(check(people_lst)):
-            people_lst[ran].append(item_list.pop())
-        else:
-            if(len(people_lst[ran]) != 0):
-                continue
-            people_lst[ran].append(item_list.pop())
+        if(!check[i]):
+            item_list[i].append(ran);
+            cnt+=1;
+            check[i] = true;=
     
     result = "축하드립니다!```"
-    for i in range(0, people_cnt):
-        if(len(people_lst[i]) == 0):
-            continue
-        result += str(i+1)+"번째 공대원님 : "
-        while(len(people_lst[i]) != 0):
-            result += str(people_lst[i].pop())+"번 아이템, "
+    for i in range(0, item_list):
+        result += str(i+1)+"번 아이템 : "
+        while(len(item_list[i]) != 0):
+            result += item_list[i].pop()+"번 공대원님, "
         result = result.rstrip(", ")
         result+="\n"
     result += '```'
     return result
 
-def check(people_lst=dict()):
-    isFull = True
-    for i in range(0, len(people_lst)):
-        if(len(people_lst[i]) == 0):
-           isFull = False;
-           break
-    return isFull
     
 # def printResult():
 #     global lst

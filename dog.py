@@ -61,7 +61,7 @@ async def on_member_join(member):
     await member.add_roles(role)
     await member.edit(nick="🔰닉네임/직업")
 
-def find_islands():
+async def find_islands():
     webpage = urlopen("http://loawa.com")
     soup = BeautifulSoup(webpage, "html.parser")
 
@@ -93,12 +93,12 @@ async def vote(message=""):
     for i in range(0, msg_len):
         await msg.add_reaction(emoji_number[i])
         
-def roulette(message=""):
+async def roulette(message=""):
     msg = message.content.split()  # 공대원 수
     cnt = int(msg[1])
     return str(random.randrange(1, cnt+1))
 
-def ladder(message=""):
+async def ladder(message=""):
     msg = message.content.split()  # 공대원 수 #항목 수
     people_cnt = int(msg[1])
     item_cnt = int(msg[2])
@@ -131,7 +131,7 @@ def ladder(message=""):
     result += '```'
     return result
 
-def check_arr(check_lst=[]):
+async def check_arr(check_lst=[]):
     isFull = True
     for i in range(0, len(check_lst)):
         if(check_lst[i] == False):

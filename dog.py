@@ -93,12 +93,12 @@ async def vote(message=""):
     for i in range(0, msg_len):
         await msg.add_reaction(emoji_number[i])
         
-async def roulette(message=""):
+def roulette(message=""):
     msg = message.content.split()  # 공대원 수
     cnt = int(msg[1])
     return str(random.randrange(1, cnt+1))
 
-async def ladder(message=""):
+def ladder(message=""):
     msg = message.content.split()  # 공대원 수 #항목 수
     people_cnt = int(msg[1])
     item_cnt = int(msg[2])

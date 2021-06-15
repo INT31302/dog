@@ -131,7 +131,7 @@ async def ladder(message=""):
     result += '```'
     return result
 
-async def check_arr(check_lst=[]):
+def check_arr(check_lst=[]):
     isFull = True
     for i in range(0, len(check_lst)):
         if(check_lst[i] == False):

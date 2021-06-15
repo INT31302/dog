@@ -5,7 +5,11 @@ from bs4 import BeautifulSoup
 import time
 import re
 import random
-client = discord.Client()
+
+intents = discord.Intents.default()
+intents.members = True
+
+client = discord.Client(intents=intents)
 
 lst = dict()
 attend_list = dict()
@@ -37,30 +41,21 @@ async def on_message(message):
         time.sleep(2)
         await msg.delete()
         await message.channel.send(ladder(message))
-    # if message.content.startswith("/이벤트"):
-    #     await message.channel.send(voteEvent(message))
-    # if(message.author.discriminator == '8757'):
-    #     if message.content.startswith("/초기화"):
-    #         lst.clear()
-    #         attend_list.clear()
-    #         await message.channel.send("초기화 되었습니다.")
-    #     if message.content.startswith("/결과"):
-    #         await message.channel.send(printVoteResult())
-    #     if message.content.startswith("/추첨"):
-    #         await message.channel.send(drawLots())
-
 
 @client.event
 async def on_member_join(member):
-    print(member, '멤버왔음!')
+    print('join:',member)
     try:
         await member.create_dm()
-        await member.dm_channel.send("댕댕이애호가에 오신 것을 환영합니다! 공지사항 게시판에서 공지사항을 먼저 읽어주세요. 같이 즐겁게 로아합시다^^ 서버 내 닉네임을 양식에 맡게 변경해주세요!")
+        await member.dm_channel.send("댕댕이애호가에 오신 것을 환영합니다!\n길드규칙 및 공지사항 게시판 글을 먼저 읽어주세요.\n서버 내 닉네임을 양식에 맡게 변경해주세요!\n같이 즐겁게 로아합시다^^")
+        print('send welcome message.')
     except:
         print("error")
     role = discord.utils.get(member.guild.roles, name="🔰길드원")
     await member.add_roles(role)
+    print('add role.')
     await member.edit(nick="🔰닉네임/직업")
+    print('edit nickname.')
 
 async def find_islands():
     webpage = urlopen("http://loawa.com")
@@ -139,24 +134,6 @@ def check_arr(check_lst=[]):
            isFull = False;
            break
     return isFull
-    
-# def printResult():
-#     global lst
-#     result = "득표 수\n"
-#     for k, v in lst.items():
-#         result += k + '님 ' + str(v) + "표\n"
-#     return result
-
-# def drawLots():
-#     global attend_list
-#     r = random.randrange(0, len(attend_list))
-#     cnt = 0
-#     result = '추첨결과\n'
-#     for k in attend_list.keys():
-#         if(cnt == r):
-#             result += '당첨자는 ' + k+"입니다!"
-#         cnt += 1
-#     return result
 
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)

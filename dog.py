@@ -1,7 +1,6 @@
 import discord
 import os
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
+import requests
 import time
 import re
 import random
@@ -24,18 +23,17 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global lst
-    if message.content.startswith("*모험섬"):
-        msg = await message.channel.send("잠시만 기다려주세요!")
-        time.sleep(2)
-        await msg.delete()
-        await message.channel.send(find_islands())
+    # if message.content.startswith("*인증"):
+    # await activity(message)
+    if message.content.startswith("*활성화"):
+        await message.channel.send(activity(message))
     if message.content.startswith("*투표"):
         await vote(message)
     if message.content.startswith("*몰아주기"):
         msg = await message.channel.send("몰아주기 결과는?!")
         time.sleep(2)
         await msg.delete()
-        await message.channel.send("축하드립니다!```"+roulette(message)+"번 공대원님!```")
+        await message.channel.send("축하드립니다!```" + roulette(message) + "번 공대원님!```")
     if message.content.startswith("*사다리"):
         msg = await message.channel.send("사다리타기 결과는?!")
         time.sleep(2)
@@ -94,6 +92,16 @@ def roulette(message=""):
     cnt = int(msg[1])
     return str(random.randrange(1, cnt+1))
 
+def activity(message=""):
+    active_key = message.content.split()[1]
+    status_code = requests.patch('https://daenghoga.herokuapp.com/api/users', {'activeKey': active_key}).status_code
+    if status_code == 500:
+        return '존재하지 않는 활성화 키입니다.'
+    elif status_code == 403:
+        return '이미 활성화된 키입니다.'
+    else:
+        return '활성화 완료!'
+    
 def ladder(message=""):
     msg = message.content.split()  # 공대원 수 #항목 수
     people_cnt = int(msg[1])

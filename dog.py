@@ -19,10 +19,12 @@ async def on_ready():
     game = discord.Game("")
     await client.change_presence(status=discord.Status.online, activity=game)
 
-
 @client.event
 async def on_message(message):
     global lst
+    guild = message.guild
+    if(guild.id != 562910440007532564):
+        await message.channel.send('댕댕이애호가 서버에서만 가능합니다.')
     if message.content.startswith("*인증"):
         await message.channel.send(await authentication(message))
     if message.content.startswith("*활성화"):
@@ -41,13 +43,8 @@ async def on_message(message):
         await message.channel.send(ladder(message))
 
 async def authentication(message=""):
-    print(message)
     channel = message.channel
-    guild = message.guild
     member = message.author
-    print(guild.id)
-    if(guild.id != 562910440007532564):
-        return '댕댕이애호가 서버에서만 가능합니다.'
     if(channel.id != 868140356926070844):
         return '서버인증 채널에서만 가능합니다.'
     nickname = message.content.split()[1]
@@ -58,7 +55,7 @@ async def authentication(message=""):
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
     title = soup.select_one('#lostark-wrapper > div > main > div > div.profile-ingame > div.profile-info > div.game-info > div.game-info__title > span:nth-child(2)').get_text()
-    if title != '귀여운 마수':
+    if title != '계승되는':
         return '서버 인증 실패'
     try:
         await member.send( "댕댕이애호가에 오신 것을 환영합니다!\n길드규칙 및 공지사항 게시판 글을 먼저 읽어주세요.\n서버 내 닉네임을 양식에 맡게 변경해주세요!\n같이 즐겁게 로아합시다^^")
@@ -70,25 +67,26 @@ async def authentication(message=""):
         return '서버 인증 성공!'
     except Exception:
         return '서버 인증 에러'
-    
+
 async def vote(message=""):
+    channel = message.channel
+    if(channel.id != 831486216280604672):
+        return '봇용 채널에서만 가능합니다.'
     emoji_number = ['1️⃣', '2️⃣', '3️⃣']
     p = re.compile('"(.*?)"')
     msg = p.findall(message.content)
-    msg_len = len(msg)-1
-    result = '📊'+'**'+msg[0]+'**'+'\n'
+    msg_len = len(msg) - 1
+    result = '📊' + '**' + msg[0] + '**' + '\n'
     for i in range(0, msg_len):
-        result += '> '+emoji_number[i] + ' ' + msg[i+1]+'\n'
+        result += '> ' + emoji_number[i] + ' ' + msg[i + 1] + '\n'
     msg = await message.channel.send(result)
     for i in range(0, msg_len):
         await msg.add_reaction(emoji_number[i])
-        
-def roulette(message=""):
-    msg = message.content.split()  # 공대원 수
-    cnt = int(msg[1])
-    return str(random.randrange(1, cnt+1))
 
 def activity(message=""):
+    channel = message.channel
+    if(channel.id != 831486216280604672):
+        return '봇용 채널에서만 가능합니다.'
     active_key = message.content.split()[1]
     status_code = requests.patch('https://daenghoga.herokuapp.com/api/users', {'activeKey': active_key}).status_code
     if status_code == 500:
@@ -97,37 +95,48 @@ def activity(message=""):
         return '이미 활성화된 키입니다.'
     else:
         return '활성화 완료!'
-    
+
+def roulette(message=""):
+    channel = message.channel
+    if(channel.id != 831486216280604672):
+        return '봇용 채널에서만 가능합니다.'
+    msg = message.content.split()  # 공대원 수
+    cnt = int(msg[1])
+    return str(random.randrange(1, cnt + 1))
+
 def ladder(message=""):
+    channel = message.channel
+    if(channel.id != 831486216280604672):
+        return '봇용 채널에서만 가능합니다.'
     msg = message.content.split()  # 공대원 수 #항목 수
     people_cnt = int(msg[1])
     item_cnt = int(msg[2])
-    check = [];
-    cnt = 0;
+    check = []
+    cnt = 0
     item_list = dict()
     for i in range(0, item_cnt):
         item_list[i] = []
     for i in range(0, people_cnt):
-        check.append(False);
-    while(cnt != item_cnt):
+        check.append(False)
+    while (cnt != item_cnt):
         ran = random.randrange(0, people_cnt)
-        if(check_arr(check) == True):
-            item_list[cnt].append(ran);
-            cnt+=1;
+        if (check_arr(check) == True):
+            item_list[cnt].append(ran)
+            cnt += 1
         else:
-            if(check[ran] == False):
-                item_list[cnt].append(ran);
-                cnt+=1;
-                check[ran] = True;
-    
+            if (check[ran] == False):
+                item_list[cnt].append(ran)
+                cnt += 1
+                check[ran] = True
+
     result = "축하드립니다!```"
     for i in range(0, item_cnt):
-        if(len(item_list[i]) != 0):
-            result += str(i+1)+"번 아이템 : "
-            while(len(item_list[i]) != 0):
-                result += str(item_list[i].pop()+1)+"번 공대원님, "
+        if (len(item_list[i]) != 0):
+            result += str(i + 1) + "번 아이템 : "
+            while (len(item_list[i]) != 0):
+                result += str(item_list[i].pop() + 1) + "번 공대원님, "
             result = result.rstrip(", ")
-            result+="\n"
+            result += "\n"
     result += '```'
     return result
 

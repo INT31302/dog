@@ -28,6 +28,7 @@ async def on_message(message):
         time.sleep(2)
         await msg.delete()
         await message.delete()
+        return
     if message.content.startswith("*인증"):
         await message.channel.send(await authentication(message))
     if message.content.startswith("*활성화"):

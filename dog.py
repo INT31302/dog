@@ -24,6 +24,7 @@ async def on_ready():
 async def on_message(message):
     global lst
     guild = message.guild
+    channel = message.channel
     if(guild.id != 562910440007532564):
         msg = await message.channel.send('댕댕이애호가 서버에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
         time.sleep(2)
@@ -33,9 +34,13 @@ async def on_message(message):
     if message.content.startswith("*인증"):
         await message.channel.send(await authentication(message))
     if message.content.startswith("*활성화"):
+         if(channel.id != 868140356926070844):
+            msg = await message.channel.send('서버인증 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+            time.sleep(2)
+            await msg.delete()
+            return
         await message.channel.send(activity(message))
     if message.content.startswith("*투표"):
-        channel = message.channel
         if(channel.id != 831486216280604672):
             msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
             time.sleep(2)
@@ -43,7 +48,6 @@ async def on_message(message):
             return
         await vote(message)
     if message.content.startswith("*몰아주기"):
-        channel = message.channel
         if(channel.id != 831486216280604672):
             msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
             time.sleep(2)
@@ -54,7 +58,6 @@ async def on_message(message):
         await msg.delete()
         await message.channel.send("축하드립니다!```" + roulette(message) + "번 공대원님!```")
     if message.content.startswith("*사다리"):
-        channel = message.channel
         if(channel.id != 831486216280604672):
             msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
             time.sleep(2)
@@ -67,9 +70,6 @@ async def on_message(message):
 
 async def authentication(message=""):
     member = message.author
-    channel = message.channel
-    if(channel.id != 868140356926070844):
-        return '서버인증 채널에서만 가능합니다.'
     nickname = message.content.split()[1]
     url = 'https://lostark.game.onstove.com/Profile/Character/'+nickname
     response = requests.get(url)

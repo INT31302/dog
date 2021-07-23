@@ -81,8 +81,13 @@ async def authentication(message=""):
         '#lostark-wrapper > div > main > div > div.profile-ingame > div.profile-info > div.game-info > div.game-info__title > span:nth-child(2)').get_text()
     guild = soup.select_one(
         '#lostark-wrapper > div > main > div > div.profile-ingame > div.profile-info > div.game-info > div.game-info__guild > span:nth-child(2)').get_text()
-    
-    if guild != '댕댕이애호가' || title != '계승되는':
+    nickname = soup.select_one(
+        '#lostark-wrapper > div > main > div > div.profile-character-info > span.profile-character-info__name').get_text()
+    class = soup.select_one(
+        '#lostark-wrapper > div > main > div > div.profile-character-info > img')
+    print(nickname)
+    print(class)
+    if guild != '댕댕이애호가' or title != '계승되는':
         return '서버 인증 실패'
 
     try:

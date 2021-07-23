@@ -15,6 +15,13 @@ lst = dict()
 attend_list = dict()
 
 @client.event
+async def on_ready():
+    print(str(client.user.id) + " is ready")
+    game = discord.Game("")
+    await client.change_presence(status=discord.Status.online, activity=game)
+
+
+@client.event
 async def on_message(message):
     global lst
     channel = message.channel
@@ -155,7 +162,7 @@ def check_arr(check_lst=[]):
     isFull = True
     for i in range(0, len(check_lst)):
         if (check_lst[i] == False):
-            isFull = False;
+            isFull = False
             break
     return isFull
 

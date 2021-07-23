@@ -83,10 +83,9 @@ async def authentication(message=""):
         '#lostark-wrapper > div > main > div > div.profile-ingame > div.profile-info > div.game-info > div.game-info__guild > span:nth-child(2)').get_text()
     nickname = soup.select_one(
         '#lostark-wrapper > div > main > div > div.profile-character-info > span.profile-character-info__name').get_text()
-    className = soup.select_one(
-        '#lostark-wrapper > div > main > div > div.profile-character-info > img')
-    print(nickname)
-    print(className)
+    className = str(soup.select_one(
+        '#lostark-wrapper > div > main > div > div.profile-character-info > img')).split('"')[1]
+
     if guild != '댕댕이애호가' or title != '계승되는':
         return '서버 인증 실패'
 
@@ -96,7 +95,7 @@ async def authentication(message=""):
         role = discord.utils.get(member.guild.roles, name="🔰길드원")
         await member.add_roles(role)
         print('add role.')
-        await member.edit(nick="🔰닉네임/직업")
+        await member.edit(nick="🔰"+nickname+"/"+className)
         print('edit nickname.')
         return '서버 인증 성공!'
     except Exception:

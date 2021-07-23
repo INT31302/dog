@@ -67,6 +67,9 @@ async def on_message(message):
 
 async def authentication(message=""):
     member = message.author
+    channel = message.channel
+    if(channel.id != 868140356926070844):
+        return '서버인증 채널에서만 가능합니다.'
     nickname = message.content.split()[1]
     url = 'https://lostark.game.onstove.com/Profile/Character/'+nickname
     response = requests.get(url)

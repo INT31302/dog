@@ -4,6 +4,7 @@ import requests
 import time
 import re
 import random
+from bs4 import BeautifulSoup
 
 intents = discord.Intents.default()
 intents.members = True

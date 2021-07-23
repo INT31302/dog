@@ -23,8 +23,8 @@ async def on_ready():
 @client.event
 async def on_message(message):
     global lst
-    # if message.content.startswith("*인증"):
-    # await activity(message)
+    if message.content.startswith("*인증"):
+        await message.channel.send(await authentication(message))
     if message.content.startswith("*활성화"):
         await message.channel.send(activity(message))
     if message.content.startswith("*투표"):
@@ -40,41 +40,37 @@ async def on_message(message):
         await msg.delete()
         await message.channel.send(ladder(message))
 
-@client.event
-async def on_member_join(member):
-    print('join:',member)
+async def authentication(message=""):
+    print(message)
+    channel = message.channel
+    guild = message.guild
+    member = message.author
+    print(guild.id)
+    if(guild.id != 562910440007532564):
+        return '댕댕이애호가 서버에서만 가능합니다.'
+    if(channel.id != 868140356926070844):
+        return '서버인증 채널에서만 가능합니다.'
+    nickname = message.content.split()[1]
+    url = 'https://lostark.game.onstove.com/Profile/Character/'+nickname
+    response = requests.get(url)
+    if response.status_code != 200:
+        return '로아 서버 오류!'
+    html = response.text
+    soup = BeautifulSoup(html, 'html.parser')
+    title = soup.select_one('#lostark-wrapper > div > main > div > div.profile-ingame > div.profile-info > div.game-info > div.game-info__title > span:nth-child(2)').get_text()
+    if title != '귀여운 마수':
+        return '서버 인증 실패'
     try:
-        await member.create_dm()
-        await member.dm_channel.send("댕댕이애호가에 오신 것을 환영합니다!\n길드규칙 및 공지사항 게시판 글을 먼저 읽어주세요.\n서버 내 닉네임을 양식에 맡게 변경해주세요!\n같이 즐겁게 로아합시다^^")
-        print('send welcome message.')
-    except:
-        print("error")
-    role = discord.utils.get(member.guild.roles, name="🔰길드원")
-    await member.add_roles(role)
-    print('add role.')
-    await member.edit(nick="🔰닉네임/직업")
-    print('edit nickname.')
-
-async def find_islands():
-    webpage = urlopen("http://loawa.com")
-    soup = BeautifulSoup(webpage, "html.parser")
-
-    islands = "\n오늘 모험의 섬은 아래와 같습니다." + \
-        soup.select_one("span.text-theme-0.tfs14").text+"\n```"
-    try:
-        contents = soup.select(
-            'div.row.pl-1.pr-1.pt-0.pb-0.m-0.justify-content-md-center > div.col-6.col-sm-6.col-md-6.col-lg-6.col-xl-4.pl-1.pr-1')
-        for content in contents:
-            islands += "{:^15}".format(content.select_one('p > strong').text)
-        islands += "\n"
-        for content in contents:
-            islands += "{:^15}".format(content.select_one('span > strong').text)
-        islands += "\n"
-        islands += "```"
-        return islands
-    except:
-        return "오류 발생"
-
+        await member.send( "댕댕이애호가에 오신 것을 환영합니다!\n길드규칙 및 공지사항 게시판 글을 먼저 읽어주세요.\n서버 내 닉네임을 양식에 맡게 변경해주세요!\n같이 즐겁게 로아합시다^^")
+        role = discord.utils.get(member.guild.roles, name="🔰길드원")
+        await member.add_roles(role)
+        print('add role.')
+        await member.edit(nick="🔰닉네임/직업")
+        print('edit nickname.')
+        return '서버 인증 성공!'
+    except Exception:
+        return '서버 인증 에러'
+    
 async def vote(message=""):
     emoji_number = ['1️⃣', '2️⃣', '3️⃣']
     p = re.compile('"(.*?)"')

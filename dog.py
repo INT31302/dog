@@ -26,8 +26,8 @@ async def on_message(message):
     if(guild.id != 562910440007532564):
         msg = await message.channel.send('댕댕이애호가 서버에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
         time.sleep(2)
-        await msg.delete()
         await message.delete()
+        await msg.delete()
         return
     if message.content.startswith("*인증"):
         await message.channel.send(await authentication(message))

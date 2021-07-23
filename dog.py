@@ -79,8 +79,12 @@ async def authentication(message=""):
     soup = BeautifulSoup(html, 'html.parser')
     title = soup.select_one(
         '#lostark-wrapper > div > main > div > div.profile-ingame > div.profile-info > div.game-info > div.game-info__title > span:nth-child(2)').get_text()
-    if title != '계승되는':
+    guild = soup.select_one(
+        '#lostark-wrapper > div > main > div > div.profile-ingame > div.profile-info > div.game-info > div.game-info__guild > span:nth-child(2)').get_text()
+    
+    if guild != '댕댕이애호가' || title != '계승되는':
         return '서버 인증 실패'
+
     try:
         await member.send(
             "댕댕이애호가에 오신 것을 환영합니다!\n길드규칙 및 공지사항 게시판 글을 먼저 읽어주세요.\n서버 내 닉네임을 양식에 맡게 변경해주세요!\n같이 즐겁게 로아합시다^^")

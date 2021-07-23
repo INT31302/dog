@@ -24,29 +24,47 @@ async def on_message(message):
     global lst
     guild = message.guild
     if(guild.id != 562910440007532564):
-        await message.channel.send('댕댕이애호가 서버에서만 가능합니다.')
+        msg = await message.channel.send('댕댕이애호가 서버에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+        time.sleep(2)
+        await msg.delete()
+        await message.delete()
     if message.content.startswith("*인증"):
         await message.channel.send(await authentication(message))
     if message.content.startswith("*활성화"):
         await message.channel.send(activity(message))
     if message.content.startswith("*투표"):
+        channel = message.channel
+        if(channel.id != 831486216280604672):
+            msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+            time.sleep(2)
+            await msg.delete()
+            return
         await vote(message)
     if message.content.startswith("*몰아주기"):
+        channel = message.channel
+        if(channel.id != 831486216280604672):
+            msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+            time.sleep(2)
+            await msg.delete()
+            return
         msg = await message.channel.send("몰아주기 결과는?!")
         time.sleep(2)
         await msg.delete()
         await message.channel.send("축하드립니다!```" + roulette(message) + "번 공대원님!```")
     if message.content.startswith("*사다리"):
+        channel = message.channel
+        if(channel.id != 831486216280604672):
+            msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+            time.sleep(2)
+            await msg.delete()
+            return
         msg = await message.channel.send("사다리타기 결과는?!")
         time.sleep(2)
         await msg.delete()
         await message.channel.send(ladder(message))
 
 async def authentication(message=""):
-    channel = message.channel
     member = message.author
-    if(channel.id != 868140356926070844):
-        return '서버인증 채널에서만 가능합니다.'
     nickname = message.content.split()[1]
     url = 'https://lostark.game.onstove.com/Profile/Character/'+nickname
     response = requests.get(url)
@@ -69,9 +87,6 @@ async def authentication(message=""):
         return '서버 인증 에러'
 
 async def vote(message=""):
-    channel = message.channel
-    if(channel.id != 831486216280604672):
-        return '봇용 채널에서만 가능합니다.'
     emoji_number = ['1️⃣', '2️⃣', '3️⃣']
     p = re.compile('"(.*?)"')
     msg = p.findall(message.content)
@@ -84,9 +99,6 @@ async def vote(message=""):
         await msg.add_reaction(emoji_number[i])
 
 def activity(message=""):
-    channel = message.channel
-    if(channel.id != 831486216280604672):
-        return '봇용 채널에서만 가능합니다.'
     active_key = message.content.split()[1]
     status_code = requests.patch('https://daenghoga.herokuapp.com/api/users', {'activeKey': active_key}).status_code
     if status_code == 500:
@@ -97,17 +109,11 @@ def activity(message=""):
         return '활성화 완료!'
 
 def roulette(message=""):
-    channel = message.channel
-    if(channel.id != 831486216280604672):
-        return '봇용 채널에서만 가능합니다.'
     msg = message.content.split()  # 공대원 수
     cnt = int(msg[1])
     return str(random.randrange(1, cnt + 1))
 
 def ladder(message=""):
-    channel = message.channel
-    if(channel.id != 831486216280604672):
-        return '봇용 채널에서만 가능합니다.'
     msg = message.content.split()  # 공대원 수 #항목 수
     people_cnt = int(msg[1])
     item_cnt = int(msg[2])

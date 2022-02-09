@@ -31,6 +31,10 @@ async def on_ready():
     game = discord.Game("")
     await client.change_presence(status=discord.Status.online, activity=game)
 
+@client.event
+async def on_member_join(member):
+    await member.send(
+            "안녕하세요! [응애들나가신다] 길드에 오신것을 환영합니다.\n길드원 사칭사기 예방 및 길드원 구분을 위해 인증 후 저희 디스코드 채널을 이용하실 수 있습니다.\n\n-[응애들의 공간] 디스코드 서버 인증 방법 안내-```1. 인게임 내 칭호를 '초보 탈출'로 변경\n2. [인증채널]에 [*인증 닉네임]을 작성하면 '새싹🌱 '역할을 부여해 드리고, 디스코드 서버 내 별명을 변경해 드립니다. \n ex) *인증 짱짱쎔 \n3. '새싹'역할을 부여받으신 분은 [길드규정]채널에서 길드 규정 정독 후 하단 체크표시(✔️) 클릭\n4. '길드원'역할 부여 완료!```")
 
 @client.event
 async def on_message(message):
@@ -85,35 +89,46 @@ async def on_message(message):
         await message.delete()
         await msg.delete()
         return
-"""
-      if message.content.startswith("*투표"):
-        if (channel.id != 831486216280604672):
-            msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
-            time.sleep(2)
-            await msg.delete()
-            return
+
+    if message.content.startswith('*눈사람'):
+        await message.channel.send(snowman())
+        
+    if message.content.startswith("*투표"):
         await vote(message)
+        
     if message.content.startswith("*몰아주기"):
-        if (channel.id != 831486216280604672):
-            msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
-            time.sleep(2)
-            await msg.delete()
-            return
         msg = await message.channel.send("몰아주기 결과는?!")
         time.sleep(2)
+        await message.delete()
         await msg.delete()
         await message.channel.send("축하드립니다!```" + roulette(message) + "번 공대원님!```")
     if message.content.startswith("*사다리"):
-        if (channel.id != 831486216280604672):
-            msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
-            time.sleep(2)
-            await msg.delete()
-            return
         msg = await message.channel.send("사다리타기 결과는?!")
         time.sleep(2)
+        await message.delete()
         await msg.delete()
         await message.channel.send(ladder(message))
-"""
+
+
+def snowman():
+    string = ".\n"
+    string += "\t\t\t\t ┌─┐\n"
+    string += "\t\t\t\t │─ |\n"
+    string += "\t\t\t┌└─┘┐\n"
+    string += "\t\t\t│───│\n"
+    string += "\t\t\t└───┘\n"
+    string += "\t\t\t/ \t\t\t\t \ \n"
+    string += "\t\t\t() ^ \t\t ^  () \n"
+    string += "\t\t\t\ \t.  ──. / \n"
+    string += "\t\_\ /  \ \t . . . .  /   \ /\_\n"
+    string += "\t\t \     {'──'}     /\n"
+    string += "\t\t  \  /'──/','\\\\/\n"
+    string += "\t\t   /' 0 \t|\t| \ \'\\\n"
+    string += "\t\t  |'\t\t   |\t|  \/    | \n"
+    string += "\t\t  |'\t0\t \\ │\t  | \n"
+    string += "\t\t  |\t0 \t\t\t\t   | \n"
+    string += "\t\t  \\ \_\_\_\_\_\_\_\_\_\_\_/ \n"
+    return string
 
 async def authentication(message=""):
     member = message.author
@@ -137,8 +152,6 @@ async def authentication(message=""):
         raise AuthenticationError()
 
     try:
-        await member.send(
-            "안녕하세요! [응애들나가신다] 길드에 오신것을 환영합니다.\n길드원 사칭사기 예방 및 길드원 구분을 위해 인증 후 저희 디스코드 채널을 이용하실 수 있습니다.\n\n-[응애들의 공간] 디스코드 서버 인증 방법 안내-```1. 인게임 내 칭호를 '초보 탈출'로 변경\n2. [인증채널]에 [*인증 닉네임]을 작성하면 '새싹🌱 '역할을 부여해 드리고, 디스코드 서버 내 별명을 변경해 드립니다. \n ex) *인증 짱짱쎔 \n3. '새싹'역할을 부여받으신 분은 [길드규정]채널에서 길드 규정 정독 후 하단 체크표시(✔️) 클릭\n4. '길드원'역할 부여 완료!```")
         role = discord.utils.get(member.guild.roles, name="새싹 🌱")
         await member.add_roles(role)
         print('add role.')

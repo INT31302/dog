@@ -14,6 +14,17 @@ client = discord.Client(intents=intents)
 lst = dict()
 attend_list = dict()
 
+class AuthenticationError(Exception):
+    def __str__(self):
+        return "길드원 인증에 실패하였습니다. 이 메시지는 곧 삭제됩니다."
+    
+class BotPermissionError(Exception):
+    def __str__(self):
+        return "봇 오류가 발생하였습니다. 관리자에게 문의해주세요. 이 메시지는 곧 삭제됩니다."
+class ServerError(Exception):
+    def __str__(self):
+        return "로스트아크 홈페이지 오류가 발생하였습니다. 이 메시지는 곧 삭제됩니다."
+
 @client.event
 async def on_ready():
     print(str(client.user.id) + " is ready")
@@ -25,21 +36,57 @@ async def on_ready():
 async def on_message(message):
     global lst
     channel = message.channel
-    if message.content.startswith("*인증"):
-        if (channel.id != 868140356926070844):
-            msg = await message.channel.send('서버인증 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+    try:
+        if message.content.startswith("*인증"):
+            if (channel.id != 908571168041213992):
+                msg = await message.channel.send('서버인증 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+                time.sleep(2)
+                await message.delete()
+                await msg.delete()
+                return
+            msg = await message.channel.send(await authentication(message))
             time.sleep(2)
+            await message.delete()
             await msg.delete()
             return
-        await message.channel.send(await authentication(message))
-    if message.content.startswith("*활성화"):
-        if (channel.id != 831486216280604672):
-            msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+        if message.content.startswith("*활성화"):
+            if (channel.id != 941018584262524939):
+                msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
+                time.sleep(2)
+                await msg.delete()
+                await message.delete()
+                return
+            msg = await message.channel.send(activity(message))
             time.sleep(2)
+            await message.delete()
             await msg.delete()
             return
-        await message.channel.send(activity(message))
-    if message.content.startswith("*투표"):
+    except AuthenticationError as e:
+        msg = await message.channel.send(e)
+        time.sleep(2)
+        await message.delete()
+        await msg.delete()
+        return
+    except ServerError as e:
+        msg = await message.channel.send(e)
+        time.sleep(2)
+        await message.delete()
+        await msg.delete()
+        return
+    except BotPermissionError as e:
+        msg = await message.channel.send(e)
+        time.sleep(2)
+        await message.delete()
+        await msg.delete()
+        return
+    except:
+        msg = await message.channel.send('사용법에 맞게 입력해주세요. 이 메시지는 곧 삭제됩니다.')
+        time.sleep(2)
+        await message.delete()
+        await msg.delete()
+        return
+"""
+      if message.content.startswith("*투표"):
         if (channel.id != 831486216280604672):
             msg = await message.channel.send('봇용 채널에서만 가능합니다. 이 메시지는 곧 삭제됩니다.')
             time.sleep(2)
@@ -66,7 +113,7 @@ async def on_message(message):
         time.sleep(2)
         await msg.delete()
         await message.channel.send(ladder(message))
-
+"""
 
 async def authentication(message=""):
     member = message.author
@@ -74,7 +121,7 @@ async def authentication(message=""):
     url = 'https://lostark.game.onstove.com/Profile/Character/' + nickname
     response = requests.get(url)
     if response.status_code != 200:
-        return '로아 서버 오류!'
+        raise ServerError()
     html = response.text
     soup = BeautifulSoup(html, 'html.parser')
     title = soup.select_one(
@@ -86,20 +133,20 @@ async def authentication(message=""):
     className = str(soup.select_one(
         '#lostark-wrapper > div > main > div > div.profile-character-info > img')).split('"')[1]
 
-    if guild != '댕댕이애호가' or title != '계승되는':
-        return '서버 인증 실패'
+    if guild != '응애들나가신다' or title != '초보 탈출':
+        raise AuthenticationError()
 
     try:
         await member.send(
-            "댕댕이애호가에 오신 것을 환영합니다!\n길드규칙 및 공지사항 게시판 글을 먼저 읽어주세요.\n서버 내 닉네임을 양식에 맡게 변경해주세요!\n같이 즐겁게 로아합시다^^")
-        role = discord.utils.get(member.guild.roles, name="🔰길드원")
+            "안녕하세요! [응애들나가신다] 길드에 오신것을 환영합니다.\n길드원 사칭사기 예방 및 길드원 구분을 위해 인증 후 저희 디스코드 채널을 이용하실 수 있습니다.\n\n-[응애들의 공간] 디스코드 서버 인증 방법 안내-```1. 인게임 내 칭호를 '초보 탈출'로 변경\n2. [인증채널]에 [*인증 닉네임]을 작성하면 '새싹🌱 '역할을 부여해 드리고, 디스코드 서버 내 별명을 변경해 드립니다. \n ex) *인증 짱짱쎔 \n3. '새싹'역할을 부여받으신 분은 [길드규정]채널에서 길드 규정 정독 후 하단 체크표시(✔️) 클릭\n4. '길드원'역할 부여 완료!```")
+        role = discord.utils.get(member.guild.roles, name="새싹 🌱")
         await member.add_roles(role)
         print('add role.')
-        await member.edit(nick="🔰"+nickname+"/"+className)
+        await member.edit(nick=nickname)
         print('edit nickname.')
         return '서버 인증 성공!'
-    except Exception:
-        return '서버 인증 에러'
+    except:
+        raise BotPermissionError()
 
 
 async def vote(message=""):
